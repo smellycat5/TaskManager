@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -39,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('tasks', TaskController::class);
     Route::get('/activity', [ProductController::class,'activity'])->name('products.activity');
+    Route::post('/assign/{id}', [TaskController::class,'assign'])->name('tasks.assign');
 });
 

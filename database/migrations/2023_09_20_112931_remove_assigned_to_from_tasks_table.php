@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
-            $table->string('description');
-            $table->string('status');
-            $table->string('assigned_to')->nullable();
-            $table->timestamps();
-
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dropColumn('assigned_to');
         });
     }
 
@@ -26,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->unsignedBigInteger('assigned_to');
+            // You may add other columns as needed during rollback.
+        });
     }
 };

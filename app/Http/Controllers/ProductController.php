@@ -44,7 +44,7 @@ class ProductController extends Controller
         $data = $request->validated();
         $product = $this->product->create($data);
         $user_id = auth()->user()->id;
-        $product->users()->sync($user_id);
+        $product->user()->sync($user_id);
         return redirect()->route('products.index');
     }
 

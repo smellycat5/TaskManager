@@ -16,6 +16,37 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            color: #000000;
+            transition: background-color 0.2s ease;
+        }
+        .auth-button {
+            display: inline-block;
+            color: #f36767;
+            transition: background-color 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #555;
+            text-decoration: none;
+            color: #D94452;
+        }
+        .auth-button:hover {
+            background-color: #f5a6a6;
+            text-decoration: none;
+            color: #3b3636;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,26 +74,32 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link auth-button" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link auth-button" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
-                            <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
-                            <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
-                            <li><a class="nav-link" href="{{ route('products.index') }}">Manage Product</a></li>
-                            <li><a class="nav-link">
-                                    @auth
-                                        <form action="{{ route('logout') }}" method="POST">
-                                            @csrf
-                                            <button class="nav-link">{{ __(auth()->user()->name) }}, Logout?</button>
-                                        </form>
-                                    @endauth
+                            <li><a class="nav-link cta-button" href="{{ route('tasks.index') }}">Tasks</a></li>
+                            @role('Admin')
+                            <li><a class="nav-link cta-button" href="{{ route('users.index') }}">Manage Users</a></li>
+                            
+                            <li><a class="nav-link cta-button" href="{{ route('roles.index') }}">Manage Role</a></li>
+                            @endrole
+                            <li><a class="nav-link cta-button" href="{{ route('products.index') }}">Products</a></li>
+                            <li>
+                                @auth
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button class="nav-link auth-button">
+                                            {{ __(auth()->user()->name) }}, Logout
+                                        </button>
+                                    </form>
+                                @endauth
                             </li>
                         @endguest
                     </ul>

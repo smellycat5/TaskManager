@@ -50,4 +50,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(UserTask::class);
+    }
+
+    public function userTasks()
+    {
+        return $this->hasManyThrough(Task::class, UserTask::class, 'user_id', 'id', 'id', 'task_id');
+    }
+
+    // public function hasRole($roleName)
+    // {
+    //     return $this->role == $roleName; // sample implementation only
+    // }
 }

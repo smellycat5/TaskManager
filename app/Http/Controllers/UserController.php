@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::latest()->with('roles')->paginate(5);
+        $data = User::latest()->with('roles')->with('userTasks')->paginate(5);
         return view('users.index',compact('data'));
     }
     

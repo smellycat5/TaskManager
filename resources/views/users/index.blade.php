@@ -25,6 +25,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
+                <th>Tasks</th>
                 <th width="280px">Action</th>
             </tr>
             @foreach ($data as $key => $user)
@@ -40,6 +41,17 @@
                         @endif
                     </td>
                     <td>
+                        {{-- @dd($user) --}}
+                        @if (isset($user->userTasks))
+                            @foreach ($user->userTasks as $task)
+                                <p>{{ $task->description }}</p>
+                            @endforeach
+                        @else
+                            <p> No Tasks</p>
+                        @endif
+                        {{-- {{ $user->tasks }} --}}
+                    </td>
+                    <td>
                         <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
                         <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
                         {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
@@ -50,7 +62,7 @@
             @endforeach
         </table>
 
-        
+
         {{ $data->links() }}
     </div>
 @endsection

@@ -22,7 +22,7 @@ class Product extends Model
         'price',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsToMany(User::class);
     }
