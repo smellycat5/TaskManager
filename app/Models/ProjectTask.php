@@ -5,19 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SprintTask extends Model
+class ProjectTask extends Model
 {
-
-    protected $table ='sprint_task';
     use HasFactory;
-
+    protected $table = 'project_task';
+    
      /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
-        'sprint_id',
+        'project_id',
         'task_id',
     ];
+
+
+    // public function project()
+    // {
+    //     return $this->belongsTo(Project::class);
+    // }
+
+    // public function task()
+    // {
+    //     return $this->belongsTo(Task::class);
+    // }
 }

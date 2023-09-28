@@ -30,6 +30,7 @@
             color: #000000;
             transition: background-color 0.2s ease;
         }
+
         .auth-button {
             display: inline-block;
             color: #f36767;
@@ -41,6 +42,7 @@
             text-decoration: none;
             color: #D94452;
         }
+
         .auth-button:hover {
             background-color: #f5a6a6;
             text-decoration: none;
@@ -84,11 +86,11 @@
                                 </li>
                             @endif
                         @else
-                            <li><a class="nav-link cta-button" href="{{ route('tasks.index') }}">Tasks</a></li>
+                            <li><a class="nav-link cta-button" href="{{ route('projects.index') }}">Projects</a></li>
                             @role('Admin')
-                            <li><a class="nav-link cta-button" href="{{ route('users.index') }}">Manage Users</a></li>
-                            
-                            <li><a class="nav-link cta-button" href="{{ route('roles.index') }}">Manage Role</a></li>
+                                <li><a class="nav-link cta-button" href="{{ route('users.index') }}">Manage Users</a></li>
+
+                                <li><a class="nav-link cta-button" href="{{ route('roles.index') }}">Manage Role</a></li>
                             @endrole
                             <li><a class="nav-link cta-button" href="{{ route('products.index') }}">Products</a></li>
                             <li>

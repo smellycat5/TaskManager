@@ -9,7 +9,7 @@
                     <h2>Edit Task</h2>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('tasks.index') }}"> Back </a>
+                    <a class="btn btn-primary" href="{{ route('projects.tasks.index',[$project->id]) }}"> Back </a>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        <form action="{{ route('tasks.update', $task->id) }}" method="POST">
+        <form action="{{ route('projects.tasks.update',[$project->id,$task->id]) }}" method="POST">
             @csrf
             @method('PUT')
 

@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        return $this->hasMany(UserTask::class);
+        return $this->belongsToMany(Task::class);
     }
 
     public function userTasks()
@@ -61,8 +61,8 @@ class User extends Authenticatable
         return $this->hasManyThrough(Task::class, UserTask::class, 'user_id', 'id', 'id', 'task_id');
     }
 
-    // public function hasRole($roleName)
-    // {
-    //     return $this->role == $roleName; // sample implementation only
-    // }
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }

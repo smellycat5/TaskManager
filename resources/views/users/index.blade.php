@@ -63,6 +63,6 @@
         </table>
 
 
-        {{ $data->links() }}
+        {{-- {{ $data->links() }} --}}
     </div>
 @endsection

@@ -5,6 +5,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SprintController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -40,8 +42,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
-    Route::resource('tasks', TaskController::class);
-    Route::get('/activity', [ProductController::class,'activity'])->name('products.activity');
-    Route::post('/assign/{id}', [TaskController::class,'assign'])->name('tasks.assign');
-});
+    Route::resource('projects.tasks', TaskController::class);
+    Route::resource('projects', ProjectController::class);
+    Route::resource('sprints', SprintController::class)->except('index');
+    Route::get('/activity', [ProductController::class, 'activity'])->name('products.activity');
+    Route::prefix('project')->group(function () {
+        Route::post('/{project}/assign/{task}', [TaskController::class, 'assign'])->name('tasks.assign');
+        Route::get('/{project}/sprints', [SprintController::class, 'index'])->name('sprints.index');
+        Route::get('/{project}/sprints', [SprintController::class, 'create'])->name('sprints.create2');
+        Route::post('/{project}/sprints', [SprintController::class, 'store'])->name('sprints.store2');
+        Route::get('/{project}/users',[ProjectController::class, 'users'])->name('project.users');
+        Route::post('/{project}/users/{user}',[ProjectController::class, 'addUsers'])->name('project.addUsers');
+        Route::delete('/{project}/users/{user}',[ProjectController::class, 'removeUser'])->name('project.deleteUsers');
 
+    });
+    Route::post('/tasks/{task}/assign', [TaskController::class, 'toSprint'])->name('tasks.toSprint');
+});

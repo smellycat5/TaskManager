@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
@@ -28,8 +29,23 @@ class Task extends Model
         return $this->hasMany(UserTask::class);
     }
 
-    public function user()
+    public function users()
     {
-        return $this->hasOneThrough(User::class, UserTask::class, 'task_id', 'id', 'id', 'user_id');
+        return $this->belongsToMany(User::class);
+    }
+
+    // public function project()
+    // {
+    //     return $this->hasOneThrough(Project::class, ProjectTask::class, 'task_id', 'id', 'id' , 'project_id');
+    // }
+
+    public function project()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
+    public function projectTask()
+    {
+        return $this->belongsTo(ProjectTask::class);
     }
 }
