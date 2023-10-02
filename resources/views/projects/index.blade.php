@@ -8,9 +8,9 @@
                 <h2>Projects</h2>
             </div>
             <div class="pull-right py-4">
-                {{-- @can('project-create') --}}
+                @can('project-create')
                     <a class="btn btn-success" href="{{ route('projects.create') }}"> Create New Project </a>
-                {{-- @endcan --}}
+                @endcan
 
                 <!-- You can add other buttons or links here as needed -->
             </div>
@@ -37,19 +37,21 @@
         <td>{{ $project->client_email }}</td>
         <td>
             <a class="btn btn-info" href="{{ route('projects.show', $project->id) }}">Show</a>
-
+            <!-- Tasks Button -->
+            <a class="btn btn-success" href="{{ route('projects.tasks.index', $project->id) }}">Tasks</a>
+@can('project-edit')
             <!-- Edit Button -->
             <a class="btn btn-primary" href="{{ route('projects.edit', $project->id) }}">Edit</a>
 
-            <!-- Tasks Button -->
-            <a class="btn btn-success" href="{{ route('projects.tasks.index', $project->id) }}">Tasks</a>
-
+            @endcan
+@can('project-delete')
             <!-- Delete Button -->
             <form action="{{ route('projects.destroy', $project->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
+            @endcan
         </td>
     </tr>
 @endforeach

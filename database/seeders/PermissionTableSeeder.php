@@ -23,6 +23,7 @@ class PermissionTableSeeder extends Seeder
            'task-list',
            'task-edit',
            'task-delete',
+           'task-assign',
            'project-create',
            'project-edit',
            'project-list',

@@ -88,11 +88,11 @@
                             <a class="btn btn-primary"
                                 href="{{ route('projects.tasks.edit', [$project->id, $task->id]) }}">Edit</a>
                         @endcan
+                        <a class="btn btn-info"
+                            href="{{ route('projects.tasks.show', [$project->id, $task->id]) }}">Assign</a>
 
-                        @role('Admin')
+                        {{-- @role('Admin') --}}
                             <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST">
-                                <a class="btn btn-info"
-                                    href="{{ route('projects.tasks.show', [$project->id, $task->id]) }}">Assign</a>
 
                                 @csrf
                                 @method('DELETE')
@@ -100,7 +100,7 @@
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 @endcan
                             </form>
-                        @endrole
+                        {{-- @endrole --}}
                         {{-- <a class="btn btn-success" href="{{ route('tasks.', [$task->id]) }}">To Sprint</a> --}}
 
                         {{-- @if ($task->sprint) --}}

@@ -7,7 +7,7 @@
                 <div class="pull-left">
                     <h2>Users Management</h2>
                 </div>
-                <div class="pull-right">
+                <div class="pull-right mb-3">
                     <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User </a>
                 </div>
             </div>
@@ -15,6 +15,11 @@
 
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+        @if ($message = Session::get('failed'))
+            <div class="alert alert-danger">
                 <p>{{ $message }}</p>
             </div>
         @endif
@@ -63,6 +68,6 @@
         </table>
 
 
-        {{-- {{ $data->links() }} --}}
+        {{-- {{ $data->links() }}  --}}
     </div>
 @endsection

@@ -11,19 +11,24 @@ use App\Models\Sprint;
 use App\Models\Project;
 use App\Models\SprintTask;
 use App\Models\ProjectTask;
+use App\Notifications\TaskNotification;
+use App\Services\TaskService;
 use Illuminate\Support\Benchmark;
 
 class TaskController extends Controller
 {
-    protected Task $task;
+    protected $task;
+    protected $taskService;
 
-    public function __construct(Task $task)
+    public function __construct(Task $task, TaskService $taskService)
     {
         $this->task = $task;
+        $this->taskService = $taskService;
         $this->middleware('permission:task-list|task-create|task-edit|task-delete', ['only' => ['index', 'store']]);
         $this->middleware('permission:task-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:task-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:task-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:task-assign', ['only' => ['assign']]);
     }
 
     /**
@@ -89,7 +94,13 @@ class TaskController extends Controller
     public function update(TaskEditRequest $request, Project $project, Task $task)
     {
         $data = $request->validated();
-        $task->update($data);
+        // $status = $data->status;
+        // dd($data['status']);
+        if ($data['status'] !== $task->status) {
+            $task->update($data);
+            $status = $this->taskService->checkStatus($task);
+            // return redirect()->route('projects.tasks.index', $project->id);
+        }
         return redirect()->route('projects.tasks.index', $project->id);
     }
 
@@ -110,6 +121,10 @@ class TaskController extends Controller
             ['task_id' => $taskId],
             ['user_id' => $user->id],
         );
+        $userName = $user->name;
+        // $status = $task->status;
+        $task = $task->title;
+        $user->notify(new TaskNotification($task, $userName));
         return redirect()->route('projects.tasks.index', compact('project'));
     }
 

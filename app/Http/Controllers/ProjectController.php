@@ -19,13 +19,21 @@ class ProjectController extends Controller
         $this->middleware('permission:project-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:project-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:project-delete', ['only' => ['destroy']]);
+        
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $projects = Project::with('sprints.tasks')->get();
+        if(auth()->user()->hasRole('Admin')){
+            $projects = Project::with('sprints.tasks')->get();
+        }
+        else{
+            $projects = auth()->user()->projects()->get();
+        }
+        // dd(auth()->user()->hasRole('Admin'));
+        // dd($projects);
         return view('projects.index', compact('projects'));
     }
 
@@ -98,7 +106,6 @@ class ProjectController extends Controller
 
     /**
      * Add users to the project.
-     *
      */
     public function addUsers(Project $project, User $user)
     {
@@ -106,15 +113,15 @@ class ProjectController extends Controller
         $user_id = $user->id;
         // dd($user_id);
         ProjectUser::create(['project_id' => $project_id, 'user_id' => $user_id]);
-        // ProjectUser::create(
-        //     ['project_id'=>$project_id],
-        //     ['$user_id'=>$user_id],
-        // );
         return redirect()->route('project.users', $project->id);
-
-        // dd('success');
     }
 
+    /**
+     * Remove a user from a project.
+     *
+     * @param Project $project
+     * @param User $user
+     */
     public function removeUser(Project $project, User $user)
     {
         $tasks = $project->tasks()
